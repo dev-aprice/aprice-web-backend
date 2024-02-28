@@ -7,7 +7,7 @@
     "tsc": "tsc",
     "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
     "prod": "cross-env NODE_ENV=production ts-node-dev src/index.ts",
-    "start": "node app/src/index.js"
+    "start": "node app/index.js"
   },
   "keywords": [],
   "author": "",
