@@ -36,35 +36,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var morgan_1 = require("morgan");
-var db_1 = require("../config/db");
-var routes_1 = require("./routes");
-var cors_1 = require("cors");
-var app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
-app.use((0, morgan_1.default)('tiny'));
-app.use('/api', routes_1.default);
-var PORT = 3000;
-app.listen(PORT, function () { return __awaiter(void 0, void 0, void 0, function () {
-    var error_1;
+exports.createSubServiceDetail = void 0;
+var model_1 = require("./model");
+var createSubServiceDetail = function (subservicesDetails) { return __awaiter(void 0, void 0, void 0, function () {
+    var detail;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, db_1.default.authenticate()];
+            case 0: return [4 /*yield*/, model_1.default.create(subservicesDetails)];
             case 1:
-                _a.sent();
-                console.log('Connection has been established successfully.');
-                return [3 /*break*/, 3];
-            case 2:
-                error_1 = _a.sent();
-                console.error('Unable to connect to the database:', error_1);
-                return [3 /*break*/, 3];
-            case 3:
-                console.log("Server running on port ".concat(PORT));
-                return [2 /*return*/];
+                detail = _a.sent();
+                return [2 /*return*/, detail];
         }
     });
-}); });
+}); };
+exports.createSubServiceDetail = createSubServiceDetail;

@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,36 +46,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var morgan_1 = require("morgan");
-var db_1 = require("../config/db");
-var routes_1 = require("./routes");
-var cors_1 = require("cors");
-var app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
-app.use((0, morgan_1.default)('tiny'));
-app.use('/api', routes_1.default);
-var PORT = 3000;
-app.listen(PORT, function () { return __awaiter(void 0, void 0, void 0, function () {
-    var error_1;
+exports.createSubService = void 0;
+var model_1 = require("./model");
+var controller_1 = require("../subservice-details/controller");
+var createSubService = function (subservicesData) { return __awaiter(void 0, void 0, void 0, function () {
+    var subservice_details, subserviceData, subService, _i, subservice_details_1, detail;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, db_1.default.authenticate()];
+                subservice_details = subservicesData.subservice_details, subserviceData = __rest(subservicesData, ["subservice_details"]);
+                return [4 /*yield*/, model_1.default.create(subserviceData)];
             case 1:
-                _a.sent();
-                console.log('Connection has been established successfully.');
-                return [3 /*break*/, 3];
+                subService = (_a.sent());
+                if (!(subservice_details && subservice_details.length > 0)) return [3 /*break*/, 5];
+                _i = 0, subservice_details_1 = subservice_details;
+                _a.label = 2;
             case 2:
-                error_1 = _a.sent();
-                console.error('Unable to connect to the database:', error_1);
-                return [3 /*break*/, 3];
+                if (!(_i < subservice_details_1.length)) return [3 /*break*/, 5];
+                detail = subservice_details_1[_i];
+                return [4 /*yield*/, (0, controller_1.createSubServiceDetail)(__assign(__assign({}, detail), { id_subservice: subService.id }))];
             case 3:
-                console.log("Server running on port ".concat(PORT));
-                return [2 /*return*/];
+                _a.sent();
+                _a.label = 4;
+            case 4:
+                _i++;
+                return [3 /*break*/, 2];
+            case 5: return [2 /*return*/, subService];
         }
     });
-}); });
+}); };
+exports.createSubService = createSubService;

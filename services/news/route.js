@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var controller_1 = require("./controller");
+var router = (0, express_1.Router)();
+router.post('/create', controller_1.createNews);
+router.get('/get-all-news', controller_1.getAllNews);
+router.get('/get-news/:limit', controller_1.getLimitNews);
+router.get('/get-new-by-slug/:slug', controller_1.getNewBySlug);
+exports.default = router;

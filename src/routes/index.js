@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var route_1 = require("../../services/employee/route");
+var route_2 = require("../../services/role/route");
+var route_3 = require("../../services/categories/route");
+var route_4 = require("../../services/news/route");
+var route_5 = require("../../services/services/route");
+var router = (0, express_1.Router)();
+router.use('/employees', route_1.default);
+router.use('/roles', route_2.default);
+router.use('/categories', route_3.default);
+router.use('/news', route_4.default);
+router.use('/services', route_5.default);
+exports.default = router;

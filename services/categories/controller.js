@@ -36,35 +36,63 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var morgan_1 = require("morgan");
-var db_1 = require("../config/db");
-var routes_1 = require("./routes");
-var cors_1 = require("cors");
-var app = (0, express_1.default)();
-app.use((0, cors_1.default)());
-app.use(express_1.default.json());
-app.use((0, morgan_1.default)('tiny'));
-app.use('/api', routes_1.default);
-var PORT = 3000;
-app.listen(PORT, function () { return __awaiter(void 0, void 0, void 0, function () {
-    var error_1;
+exports.getAllCategories = exports.createCategory = void 0;
+var model_1 = require("./model");
+var createCategory = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var newCategory, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, db_1.default.authenticate()];
+                return [4 /*yield*/, model_1.default.create(req.body)];
             case 1:
-                _a.sent();
-                console.log('Connection has been established successfully.');
+                newCategory = (_a.sent());
+                res.status(201).json(newCategory);
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
-                console.error('Unable to connect to the database:', error_1);
+                if (error_1 instanceof Error) {
+                    res.status(500).json({
+                        msg: error_1.message,
+                    });
+                }
+                else {
+                    res.status(500).json({
+                        msg: 'An unexpected error occurred',
+                    });
+                }
                 return [3 /*break*/, 3];
-            case 3:
-                console.log("Server running on port ".concat(PORT));
-                return [2 /*return*/];
+            case 3: return [2 /*return*/];
         }
     });
-}); });
+}); };
+exports.createCategory = createCategory;
+var getAllCategories = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var categories, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, model_1.default.findAll()];
+            case 1:
+                categories = (_a.sent());
+                res.status(201).json(categories);
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _a.sent();
+                if (error_2 instanceof Error) {
+                    res.status(500).json({
+                        msg: error_2.message,
+                    });
+                }
+                else {
+                    res.status(500).json({
+                        msg: 'An unexpected error occurred',
+                    });
+                }
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getAllCategories = getAllCategories;
