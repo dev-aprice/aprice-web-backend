@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize'
 import db from '../../config/db'
 import SocialMedia from '../social-media/model'
-import Role from '../role/model'
+// import Role from '../role/model'
 
 const Employee = db.define(
   'employee',
@@ -25,7 +25,7 @@ const Employee = db.define(
     },
     rut: {
       type: DataTypes.STRING(128),
-      allowNull: false,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING(128),
@@ -35,14 +35,18 @@ const Employee = db.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
-    id_role: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
-      references: {
-        model: 'role',
-        key: 'id',
-      },
+    role: {
+      type: DataTypes.STRING(45),
+      allowNull: true,
     },
+    // id_role: {
+    //   type: DataTypes.INTEGER.UNSIGNED,
+    //   allowNull: true,
+    //   references: {
+    //     model: 'role',
+    //     key: 'id',
+    //   },
+    // },
   },
   {
     freezeTableName: true,
@@ -50,6 +54,6 @@ const Employee = db.define(
 )
 
 Employee.hasMany(SocialMedia, { foreignKey: 'id_employee' })
-Employee.belongsTo(Role, { foreignKey: 'id_role' })
+// Employee.belongsTo(Role, { foreignKey: 'id_role' })
 
 export default Employee

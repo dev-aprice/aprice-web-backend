@@ -7,7 +7,6 @@ import {
   updateSocialMedia,
 } from '../social-media/controller'
 import { IEmployeeInstance } from './interfaces'
-import Role from '../role/model'
 
 export const getAllEmployees = async (
   _req: Request,
@@ -18,10 +17,6 @@ export const getAllEmployees = async (
       include: [
         {
           model: SocialMedia,
-          required: false,
-        },
-        {
-          model: Role,
           required: false,
         },
       ],
@@ -83,7 +78,7 @@ export const createEmployee = async (
     )) as IEmployeeInstance
 
     if (social_media && social_media.length > 0) {
-      await createSocialMedia(social_media, newEmployee.id!)
+      await createSocialMedia(social_media, newEmployee.id!, 'employee')
     }
 
     res.status(201).json(newEmployee)
@@ -108,7 +103,8 @@ export const updateEmployee = async (
   try {
     const { employeeId } = req.params
     const employeeIdAsNumber = +employeeId
-    const { socialMedia, ...employeeData } = req.body
+    const { social_media, ...employeeData } = req.body
+
 
     const employee = await Employee.findByPk(employeeId)
 
@@ -125,21 +121,17 @@ export const updateEmployee = async (
       },
     })
 
-    if (socialMedia && socialMedia.length > 0) {
-      await updateSocialMedia(socialMedia, employeeIdAsNumber)
+    if (social_media && social_media.length > 0) {
+      await updateSocialMedia(social_media, employeeIdAsNumber)
     }
 
-    const updatedEmployee = await Employee.findByPk(employeeIdAsNumber, {
-      include: [
-        {
-          model: SocialMedia,
-          required: false,
-        },
-      ],
+    const employees = await Employee.findAll({
+      include: [{ model: SocialMedia, required: false }],
     })
 
-    res.status(200).json(updatedEmployee)
+    res.status(200).json(employees)
   } catch (error: unknown) {
+    console.log(error)
     if (error instanceof Error) {
       res.status(500).json({
         msg: error.message,
@@ -160,7 +152,7 @@ export const deleteEmployee = async (
     const { employeeId } = req.params
     const employeeIdAsNumber = +employeeId
 
-    await destroySocialMediaByEmployeeId(employeeIdAsNumber)
+    await destroySocialMediaByEmployeeId('employee', employeeIdAsNumber)
 
     const deleted = await Employee.destroy({
       where: { id: employeeIdAsNumber },

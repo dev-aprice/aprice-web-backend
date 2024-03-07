@@ -5,37 +5,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../../config/db"));
-const SocialMedia = db_1.default.define('social_media', {
+const model_1 = __importDefault(require("../social-media/model"));
+const Partner = db_1.default.define('partners', {
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    id_employee: {
-        type: sequelize_1.DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-            model: 'employee',
-            key: 'id',
-        },
-    },
-    id_partner: {
-        type: sequelize_1.DataTypes.INTEGER,
-        allowNull: true,
-        references: {
-            model: 'partners',
-            key: 'id',
-        },
-    },
-    platform_name: {
-        type: sequelize_1.DataTypes.STRING(45),
-        allowNull: false,
-    },
-    profile_link: {
+    name: {
         type: sequelize_1.DataTypes.STRING(255),
         allowNull: false,
     },
+    email: {
+        type: sequelize_1.DataTypes.STRING(255),
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: {
+                msg: 'El correo electrónico proporcionado no es válido',
+            },
+        },
+    },
+    avatar: {
+        type: sequelize_1.DataTypes.TEXT,
+    },
 }, {
     freezeTableName: true,
+    timestamps: false,
 });
-exports.default = SocialMedia;
+Partner.hasMany(model_1.default, { foreignKey: 'id_partner' });
+exports.default = Partner;

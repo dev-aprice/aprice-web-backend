@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../../config/db"));
 const model_1 = __importDefault(require("../subservices/model"));
-const model_2 = __importDefault(require("../clients/model"));
+const model_2 = __importDefault(require("../partners/model"));
 const Service = db_1.default.define('services', {
     id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -29,11 +29,11 @@ const Service = db_1.default.define('services', {
         type: sequelize_1.DataTypes.STRING(255),
         allowNull: true,
     },
-    id_client: {
+    id_partner: {
         type: sequelize_1.DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'clients',
+            model: 'partners',
             key: 'id',
         },
     },
@@ -42,5 +42,5 @@ const Service = db_1.default.define('services', {
     timestamps: false,
 });
 Service.hasMany(model_1.default, { foreignKey: 'id_services' });
-Service.hasMany(model_2.default, { foreignKey: 'id' });
+Service.belongsTo(model_2.default, { foreignKey: 'id_partner' });
 exports.default = Service;

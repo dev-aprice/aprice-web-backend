@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize'
 import db from '../../config/db'
 import SubService from '../subservices/model'
-import Client from '../clients/model'
+import Partner from '../partners/model'
 
 const Service = db.define(
   'services',
@@ -27,11 +27,11 @@ const Service = db.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
-    id_client: {
+    id_partner: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'clients',
+        model: 'partners',
         key: 'id',
       },
     },
@@ -42,6 +42,6 @@ const Service = db.define(
   }
 )
 Service.hasMany(SubService, { foreignKey: 'id_services' })
-Service.hasMany(Client, { foreignKey: 'id' })
+Service.belongsTo(Partner, { foreignKey: 'id_partner' })
 
 export default Service

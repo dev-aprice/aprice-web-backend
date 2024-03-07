@@ -6,4 +6,6 @@ const router = (0, express_1.Router)();
 router.get('/get-services', controller_1.getAllServices);
 router.get('/get-services/:slug', controller_1.getServiceBySlug);
 router.post('/create', controller_1.createService);
+router.put('/update', controller_1.updateService);
+router.delete('/delete-services/:slug', controller_1.deleteServices);
 exports.default = router;

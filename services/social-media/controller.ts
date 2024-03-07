@@ -3,12 +3,15 @@ import SocialMedia from './model'
 
 export const createSocialMedia = async (
   socialMediaData: ISocialMedia[],
-  id_employee: number
+  id: number,
+  idType: 'employee' | 'partner'
 ) => {
   const socialMediaPromises = socialMediaData.map(async (data) => {
+    const idKey = idType === 'employee' ? 'id_employee' : 'id_partner'
+
     return SocialMedia.create({
       ...data,
-      id_employee,
+      [idKey]: id,
     })
   })
   await Promise.all(socialMediaPromises)
@@ -39,14 +42,19 @@ export const updateSocialMedia = async (
 }
 
 export const destroySocialMediaByEmployeeId = async (
-  employee_id: number
+  idType: 'employee' | 'partner',
+  id: number
 ): Promise<void> => {
   try {
+    const idKey = idType === 'employee' ? 'id_employee' : 'id_partner'
+
     await SocialMedia.destroy({
-      where: { employee_id },
+      where: { [idKey]: id },
     })
   } catch (error) {
     console.error('Error deleting social media:', error)
     throw new Error('Error deleting social media')
   }
 }
+
+

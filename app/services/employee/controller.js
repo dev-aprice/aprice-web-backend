@@ -27,17 +27,12 @@ exports.deleteEmployee = exports.updateEmployee = exports.createEmployee = expor
 const model_1 = __importDefault(require("./model"));
 const model_2 = __importDefault(require("../social-media/model"));
 const controller_1 = require("../social-media/controller");
-const model_3 = __importDefault(require("../role/model"));
 const getAllEmployees = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const employees = yield model_1.default.findAll({
             include: [
                 {
                     model: model_2.default,
-                    required: false,
-                },
-                {
-                    model: model_3.default,
                     required: false,
                 },
             ],
@@ -91,7 +86,7 @@ const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const _a = req.body, { social_media } = _a, employeeData = __rest(_a, ["social_media"]);
         const newEmployee = (yield model_1.default.create(employeeData));
         if (social_media && social_media.length > 0) {
-            yield (0, controller_1.createSocialMedia)(social_media, newEmployee.id);
+            yield (0, controller_1.createSocialMedia)(social_media, newEmployee.id, 'employee');
         }
         res.status(201).json(newEmployee);
     }
@@ -114,7 +109,7 @@ const updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const { employeeId } = req.params;
         const employeeIdAsNumber = +employeeId;
-        const _b = req.body, { socialMedia } = _b, employeeData = __rest(_b, ["socialMedia"]);
+        const _b = req.body, { social_media } = _b, employeeData = __rest(_b, ["social_media"]);
         const employee = yield model_1.default.findByPk(employeeId);
         if (!employee) {
             res.status(404).json({
@@ -127,20 +122,16 @@ const updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 id: employeeIdAsNumber,
             },
         });
-        if (socialMedia && socialMedia.length > 0) {
-            yield (0, controller_1.updateSocialMedia)(socialMedia, employeeIdAsNumber);
+        if (social_media && social_media.length > 0) {
+            yield (0, controller_1.updateSocialMedia)(social_media, employeeIdAsNumber);
         }
-        const updatedEmployee = yield model_1.default.findByPk(employeeIdAsNumber, {
-            include: [
-                {
-                    model: model_2.default,
-                    required: false,
-                },
-            ],
+        const employees = yield model_1.default.findAll({
+            include: [{ model: model_2.default, required: false }],
         });
-        res.status(200).json(updatedEmployee);
+        res.status(200).json(employees);
     }
     catch (error) {
+        console.log(error);
         if (error instanceof Error) {
             res.status(500).json({
                 msg: error.message,
@@ -158,7 +149,7 @@ const deleteEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         const { employeeId } = req.params;
         const employeeIdAsNumber = +employeeId;
-        yield (0, controller_1.destroySocialMediaByEmployeeId)(employeeIdAsNumber);
+        yield (0, controller_1.destroySocialMediaByEmployeeId)('employee', employeeIdAsNumber);
         const deleted = yield model_1.default.destroy({
             where: { id: employeeIdAsNumber },
         });

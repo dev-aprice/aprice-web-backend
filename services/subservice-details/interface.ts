@@ -2,5 +2,5 @@ export interface ISubserviceDetail {
   id?: number
   name: string
   description: string
-  id_subservice: number
+  id_subservice?: number
 }

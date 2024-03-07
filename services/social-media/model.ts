@@ -1,20 +1,27 @@
 import { DataTypes } from 'sequelize'
 import db from '../../config/db'
-// import Employee from '../employee/model'
 
 const SocialMedia = db.define(
   'social_media',
   {
     id: {
-      type: DataTypes.INTEGER.UNSIGNED,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
     id_employee: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      allowNull: false,
+      type: DataTypes.INTEGER,
+      allowNull: true,
       references: {
         model: 'employee',
+        key: 'id',
+      },
+    },
+    id_partner: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'partners',
         key: 'id',
       },
     },
@@ -31,6 +38,5 @@ const SocialMedia = db.define(
     freezeTableName: true,
   }
 )
-// SocialMedia.belongsTo(Employee, { foreignKey: 'employee_id' })
 
 export default SocialMedia

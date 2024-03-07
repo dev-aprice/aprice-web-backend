@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const db_1 = __importDefault(require("../../config/db"));
 const model_1 = __importDefault(require("../social-media/model"));
-const model_2 = __importDefault(require("../role/model"));
+// import Role from '../role/model'
 const Employee = db_1.default.define('employee', {
     id: {
         type: sequelize_1.DataTypes.INTEGER,
@@ -27,7 +27,7 @@ const Employee = db_1.default.define('employee', {
     },
     rut: {
         type: sequelize_1.DataTypes.STRING(128),
-        allowNull: false,
+        allowNull: true,
     },
     email: {
         type: sequelize_1.DataTypes.STRING(128),
@@ -37,17 +37,21 @@ const Employee = db_1.default.define('employee', {
         type: sequelize_1.DataTypes.STRING(255),
         allowNull: true,
     },
-    id_role: {
-        type: sequelize_1.DataTypes.INTEGER.UNSIGNED,
-        allowNull: false,
-        references: {
-            model: 'role',
-            key: 'id',
-        },
+    role: {
+        type: sequelize_1.DataTypes.STRING(45),
+        allowNull: true,
     },
+    // id_role: {
+    //   type: DataTypes.INTEGER.UNSIGNED,
+    //   allowNull: true,
+    //   references: {
+    //     model: 'role',
+    //     key: 'id',
+    //   },
+    // },
 }, {
     freezeTableName: true,
 });
 Employee.hasMany(model_1.default, { foreignKey: 'id_employee' });
-Employee.belongsTo(model_2.default, { foreignKey: 'id_role' });
+// Employee.belongsTo(Role, { foreignKey: 'id_role' })
 exports.default = Employee;

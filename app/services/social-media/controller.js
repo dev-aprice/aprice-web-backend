@@ -14,9 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.destroySocialMediaByEmployeeId = exports.updateSocialMedia = exports.createSocialMedia = void 0;
 const model_1 = __importDefault(require("./model"));
-const createSocialMedia = (socialMediaData, id_employee) => __awaiter(void 0, void 0, void 0, function* () {
+const createSocialMedia = (socialMediaData, id, idType) => __awaiter(void 0, void 0, void 0, function* () {
     const socialMediaPromises = socialMediaData.map((data) => __awaiter(void 0, void 0, void 0, function* () {
-        return model_1.default.create(Object.assign(Object.assign({}, data), { id_employee }));
+        const idKey = idType === 'employee' ? 'id_employee' : 'id_partner';
+        return model_1.default.create(Object.assign(Object.assign({}, data), { [idKey]: id }));
     }));
     yield Promise.all(socialMediaPromises);
 });
@@ -37,10 +38,11 @@ const updateSocialMedia = (socialMedia, id_employee) => __awaiter(void 0, void 0
     }
 });
 exports.updateSocialMedia = updateSocialMedia;
-const destroySocialMediaByEmployeeId = (employee_id) => __awaiter(void 0, void 0, void 0, function* () {
+const destroySocialMediaByEmployeeId = (idType, id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const idKey = idType === 'employee' ? 'id_employee' : 'id_partner';
         yield model_1.default.destroy({
-            where: { employee_id },
+            where: { [idKey]: id },
         });
     }
     catch (error) {

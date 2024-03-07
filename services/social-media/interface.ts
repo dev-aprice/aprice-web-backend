@@ -1,6 +1,7 @@
 export interface ISocialMedia {
   id?: number
-  employee_id?: number
+  id_employee?: number
+  id_client?: number
   platform_name?: string
   profile_link: string
 }

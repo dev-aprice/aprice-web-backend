@@ -1,7 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
-import db from '../config/db'
-import router from './routes'
+import db from './config/db'
+import router from './src/routes'
 import cors from 'cors'
 
 const app = express()
@@ -14,7 +14,7 @@ app.use(morgan('tiny'))
 
 app.use('/api', router)
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 app.listen(PORT, async () => {
   try {

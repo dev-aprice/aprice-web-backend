@@ -6,6 +6,6 @@ export interface IServices {
   resume: string
   description: string
   slug: string
-  id_client: string
+  id_partner: string
   subservices: ISubservice[]
 }

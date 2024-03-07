@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createSubService = void 0;
+exports.updateSubservices = exports.createSubService = void 0;
 const model_1 = __importDefault(require("./model"));
 const controller_1 = require("../subservice-details/controller");
 const createSubService = (subservicesData) => __awaiter(void 0, void 0, void 0, function* () {
@@ -37,3 +37,26 @@ const createSubService = (subservicesData) => __awaiter(void 0, void 0, void 0, 
     return subService;
 });
 exports.createSubService = createSubService;
+const updateSubservices = (subservice, id_service) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id, subservice_details } = subservice, restOfSubservice = __rest(subservice, ["id", "subservice_details"]);
+        if (id) {
+            yield model_1.default.update(restOfSubservice, {
+                where: { id, id_services: id_service },
+            });
+        }
+        else {
+            yield model_1.default.create(Object.assign(Object.assign({}, restOfSubservice), { id_services: id_service }));
+        }
+        if (subservice_details && subservice_details.length > 0) {
+            for (const detail of subservice_details) {
+                yield (0, controller_1.updateDetailSubservices)(detail, id || id_service);
+            }
+        }
+    }
+    catch (error) {
+        console.error('Error updating subservices:', error);
+        throw new Error('Error updating subservices');
+    }
+});
+exports.updateSubservices = updateSubservices;

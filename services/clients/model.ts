@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize'
 import db from '../../config/db'
 
 const Client = db.define(
-  'clients',
+  'client',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -10,16 +10,26 @@ const Client = db.define(
       primaryKey: true,
     },
     name: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING(45),
       allowNull: false,
     },
-    email: {
-      type: DataTypes.STRING(255),
+    website: {
+      type: DataTypes.STRING(45),
+      allowNull: true,
+    },
+    img: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    created_at: {
+      type: DataTypes.DATE,
       allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true,
-      },
+      defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
     },
   },
   {
@@ -27,7 +37,4 @@ const Client = db.define(
     timestamps: false,
   }
 )
-
-
-
 export default Client
