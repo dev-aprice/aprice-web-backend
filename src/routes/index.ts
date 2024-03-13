@@ -6,6 +6,7 @@ import newsRoutes from '../../services/news/route'
 import servicesRoutes from '../../services/services/route'
 import partnersRoutes from '../../services/partners/route'
 import clientsRoutes from '../../services/clients/route'
+import authRoutes from '../../services/auth/route'
 
 const router = Router()
 
@@ -16,5 +17,6 @@ router.use('/news', newsRoutes)
 router.use('/services', servicesRoutes)
 router.use('/partners', partnersRoutes)
 router.use('/clients', clientsRoutes)
+router.use('/auth', authRoutes)
 
 export default router
