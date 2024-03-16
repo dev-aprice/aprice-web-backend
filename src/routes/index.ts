@@ -7,6 +7,7 @@ import servicesRoutes from '../../services/services/route'
 import partnersRoutes from '../../services/partners/route'
 import clientsRoutes from '../../services/clients/route'
 import authRoutes from '../../services/auth/route'
+import emailRoutes from '../../services/email/route'
 
 const router = Router()
 
@@ -18,5 +19,6 @@ router.use('/services', servicesRoutes)
 router.use('/partners', partnersRoutes)
 router.use('/clients', clientsRoutes)
 router.use('/auth', authRoutes)
+router.use('/email', emailRoutes)
 
 export default router
