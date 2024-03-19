@@ -10,7 +10,7 @@ export const sendEmail = async (req: Request, res: Response): Promise<void> => {
 
     await resend.emails.send({
       from: 'onboarding@resend.dev',
-      to: ['valentina@aprice.cl', 'vcontadorb@gmail.com'],
+      to: ['valentina@aprice.cl', 'maigrojas@gmail.com'],
       subject: `${subject} de ${name} - [${from}]` as string,
       html: html as string,
     })
